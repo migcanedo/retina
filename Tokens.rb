@@ -13,9 +13,9 @@ class Token
 
 	# Constructor de la Clase Token
 	def initialize texto, fila, columna
-		@texto = texto	# Lo que se detecto al hacer match con alguna Expresion Regular
-		@fila = fila	# Fila en el archivo donde se consiguio dicho Token
-		@columna = columna # Columna en el archivo donde se consiguio dicho Token
+		@texto = texto	# Lo que se detecto al hacer match con alguna Expresion Regular.
+		@fila = fila	# Fila en el archivo donde se consiguio dicho Token.
+		@columna = columna # Columna en el archivo donde se consiguio dicho Token.
 	end
 
 	def to_s

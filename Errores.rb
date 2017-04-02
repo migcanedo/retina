@@ -50,7 +50,7 @@ end
 class ContextError < RuntimeError	
 end
 
-# Clase para representar el error de que una variable no fue declarada antes de usarla
+# Clase para representar el error de que una variable no fue declarada antes de usarla.
 class ErrorVariableNoDeclarada < ContextError
 	def initialize inicio, fin, nombre
 		@inicio = inicio

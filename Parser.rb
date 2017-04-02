@@ -6,7 +6,6 @@
 
 require 'racc/parser.rb'
 
-
 require_relative 'Ast'
 require_relative 'Lexer'
 require_relative 'Errores'

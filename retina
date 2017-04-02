@@ -76,7 +76,7 @@ def main
 				end
 			end
 		else
-		# Si hay errores de contexto, se retornan todos
+		# Si hay errores de contexto, se retornan todos.
 			puts $erroresContexto
 			return
 		end

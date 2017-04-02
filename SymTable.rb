@@ -8,7 +8,6 @@
 # Proyecto, Tabla de Simbolos
 
 
-
 require_relative 'Errores'
 require_relative 'Lexer'
 
@@ -20,7 +19,7 @@ class SymTable
 		@tabla = {}
 	end
 
-	# Metodo que se encarga de insertar un token en la tabla de simbolos o arrojar un error si el token ya existe
+	# Metodo que se encarga de insertar un token en la tabla de simbolos o arrojar un error si el token ya existe.
 	def insert token, tipo, variable = true
 
 		if variable 
@@ -38,7 +37,7 @@ class SymTable
 		end	
 	end
 
-	# Metodo que se encarga de buscar un token en la tabla de simbolos y en sus tablas padres
+	# Metodo que se encarga de buscar un token en la tabla de simbolos y en sus tablas padres.
 	def find nombre
 		if @tabla.has_key? (nombre)
 			@tabla[nombre]

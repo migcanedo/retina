@@ -12,13 +12,13 @@ require_relative 'Errores'
 
 # Clase que representa al Lexer.
 class Lexer
-	# Constructor de la clase Lexer
+	# Constructor de la clase Lexer.
 	def initialize entrada
-		@entrada = entrada # String que contiene el contenido del archivo
-		@linea = 1 # Valor inicial de la fila
-		@columna = 1 # Valor inicial de columna
-		@tokens = [] # Lista de tokens
-		@errores = [] # Lista de errores
+		@entrada = entrada # String que contiene el contenido del archivo.
+		@linea = 1 # Valor inicial de la fila.
+		@columna = 1 # Valor inicial de columna.
+		@tokens = [] # Lista de tokens.
+		@errores = [] # Lista de errores.
 		
 	end
 

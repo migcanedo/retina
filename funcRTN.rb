@@ -9,11 +9,11 @@
 
 require_relative 'SymTable'
 
-# Creamos la Tabla de Simbolos para las funciones
+# Creamos la Tabla de Simbolos para las funciones.
 $tablaFunciones = SymTable.new()
 
-# Inicializamos las variables globales necesarias 
-$matrix = [] #Representacion del BitMap
+# Inicializamos las variables globales necesarias .
+$matrix = [] #Representacion del BitMap.
 for i in 0..1000 
 	m = []
 	for j in 0..1000
@@ -21,14 +21,14 @@ for i in 0..1000
 	end
 	$matrix << m
 end
-$eye = [500,500] # Posicion del cursor de retina
-$head = 180 	 # Direccion del cursor de retina
-$status = true	 # Indica si se marcan o no los movimientos del cursor
-# Marcamos el centro del BitMap
+$eye = [500,500] # Posicion del cursor de retina.
+$head = 180 	 # Direccion del cursor de retina.
+$status = true	 # Indica si se marcan o no los movimientos del cursor.
+# Marcamos el centro del BitMap.
 $matrix[500][500] = 1 
 
 # Clase que representa a la Funcion Home de Retina que coloca el curso en el
-# punto inicial (0,0)
+# punto inicial (0,0).
 class FuncionHome
 	attr_reader :idFuncion
 	def initialize
@@ -36,49 +36,49 @@ class FuncionHome
 		@idFuncion = Identificador.new(TkId.new("home", 0, 0))
 	end
 	
-	# Metodo que simula la ejecucion de la funcion
+	# Metodo que simula la ejecucion de la funcion.
 	def run tabla
 		$eye = [500,500]
 	end
 end
 
 # Clase que representa a la Funcion OpenEye de Retina que indica que se marcaran los 
-# movimientos del cursor a partir de esta instruccion
+# movimientos del cursor a partir de esta instruccion.
 class FuncionOpenEye
 	attr_reader :idFuncion
 	def initialize
 		@idFuncion = Identificador.new(TkId.new("openeye", 0, 0))
 	end
 
-	# Metodo que simula la ejecucion de la funcion	
+	# Metodo que simula la ejecucion de la funcion.
 	def run tabla
 		$status = true
 	end
 end
 
 # Clase que representa a la Funcion CloseEye de Retina que indica que no se marcaran los
-# movimientos del cursor a partir de esta instruccion
+# movimientos del cursor a partir de esta instruccion.
 class FuncionCloseEye
 	attr_reader :idFuncion
 	def initialize
 		@idFuncion = Identificador.new(TkId.new("closeeye", 0, 0))
 	end
 
-	# Metodo que simula la ejecucion de la funcion	
+	# Metodo que simula la ejecucion de la funcion.	
 	def run tabla
 		$status = false
 	end
 end
 
 # Clase que representa a la Funcion Forward de Retina que avanza el cursor una cantidad
-# de pasos dada por el parametro
+# de pasos dada por el parametro.
 class FuncionForward
 	attr_reader :idFuncion
 	def initialize
 		@idFuncion = Identificador.new(TkId.new("forward", 0, 0))
 	end
 
-	# Metodo que simula la ejecucion de la funcion	
+	# Metodo que simula la ejecucion de la funcion.
 	def run tabla, param
 		xi = $eye[0]
 		yi = $eye[1]
@@ -92,14 +92,14 @@ class FuncionForward
 end
 
 # Clase que representa a la Funcion Backward de Retina que retrocede el cursor una
-# cantidad de pasos dada por el parametro
+# cantidad de pasos dada por el parametro.
 class FuncionBackward
 	attr_reader :idFuncion
 	def initialize
 		@idFuncion = Identificador.new(TkId.new("backward", 0, 0))
 	end
 	
-	# Metodo que simula la ejecucion de la funcion	
+	# Metodo que simula la ejecucion de la funcion.
 	def run tabla, param
 		xi = $eye[0]
 		yi = $eye[1]
@@ -113,49 +113,49 @@ class FuncionBackward
 end
 
 # Clase que representa a la Funcion Rotatel de Retina que rota el cursor en sentido
-# antihorario tantos grados como indique el parametro
+# antihorario tantos grados como indique el parametro.
 class FuncionRotatel
 	attr_reader :idFuncion
 	def initialize
 		@idFuncion = Identificador.new(TkId.new("rotatel", 0, 0))
 	end
 	
-	# Metodo que simula la ejecucion de la funcion	
+	# Metodo que simula la ejecucion de la funcion.	
 	def run tabla, param
 		$head = ($head + param[0])%360
 	end
 end
 
 # Clase que representa a la Funcion Rotater de Retina que rota el cursor en sentido
-# horario tantos grados como indique el parametro
+# horario tantos grados como indique el parametro.
 class FuncionRotater
 	attr_reader :idFuncion
 	def initialize
 		@idFuncion = Identificador.new(TkId.new("rotater", 0, 0))
 	end
 	
-	# Metodo que simula la ejecucion de la funcion	
+	# Metodo que simula la ejecucion de la funcion.
 	def run tabla, param
 		$head = ($head - param[0])%360
 	end
 end
 
 # Clase que representa a la Funcion SetPosition de Retina que coloca el cursor a la
-# posicion indicada por los parametros
+# posicion indicada por los parametros.
 class FuncionSetPosition
 	attr_reader :idFuncion
 	def initialize
 		@idFuncion = Identificador.new(TkId.new("setposition", 0, 0))
 	end
 	
-	# Metodo que simula la ejecucion de la funcion	
+	# Metodo que simula la ejecucion de la funcion.
 	def run tabla, param
 		$eye = [param[0], param[1]]
 		$matrix[param[0]][param[1]] = 1 if $status
 	end
 end
 
-# Guardamos todas estas funciones en la tabla global de funciones
+# Guardamos todas estas funciones en la tabla global de funciones.
 $tablaFunciones.insert(FuncionHome.new(), [nil], false)
 $tablaFunciones.insert(FuncionOpenEye.new(), [nil], false)
 $tablaFunciones.insert(FuncionCloseEye.new(), [nil], false)
