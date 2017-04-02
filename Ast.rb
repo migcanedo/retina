@@ -10,8 +10,7 @@
 
 require_relative 'SymTable'
 require_relative 'Errores'
-$nBloques = 1
-$nFors = 1
+
 $pilaLlamadas = []
 
 # Clase generica que engloba a las clases participantes en el Arbol Sintactico
