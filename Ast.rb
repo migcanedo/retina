@@ -106,7 +106,7 @@ class Funcion < AST
 				if @tipoRetorno != nil
 					correcto = i.check(@tablaVariables, @tipoRetorno.nombre.texto)
 				else
-					i.check(@tablaVariables)
+					correcto = i.check(@tablaVariables)
 				end
 
 				if correcto
@@ -246,7 +246,7 @@ class Declaracion < AST
 			@valor.check(tabla)
 
 			if @tipo.nombre.texto.downcase != @valor.tipo.downcase
-				$erroresContexto << ErrorAsignacion.new(@inicio, @fin, @tipo.nombre.texto.downcase, @valor.tipo.downcase, @variable.nombre.texto)
+				$erroresContexto << ErrorAsignacion.new(@inicio, @tipo.nombre.texto.downcase, @valor.tipo.downcase, @variable.nombre.texto)
 			end
 		end
 	end
@@ -272,11 +272,11 @@ class Asignacion < AST
 		@valor.check(tabla)
 		var = tabla.find(@variable.nombre.texto)
 		if var == nil
-			$erroresContexto << ErrorVariableNoDeclarada.new(@inicio, @fin, @variable.nombre.texto)
+			$erroresContexto << ErrorVariableNoDeclarada.new(@inicio, @variable.nombre.texto)
 		else
 			tipoVariable = var[:tipo].downcase
 			if tipoVariable != @valor.tipo.downcase
-				$erroresContexto << ErrorAsignacion.new(@inicio, @fin, tipoVariable, @valor.tipo.downcase, @variable.nombre.texto)
+				$erroresContexto << ErrorAsignacion.new(@inicio, tipoVariable, @valor.tipo.downcase, @variable.nombre.texto)
 			end
 			
 		end
@@ -525,24 +525,26 @@ class LlamadaFuncion < AST
 	# Metodo que revisa la correctitud de la clase LlamadaFuncion
 	def check tabla, tipoF = nil
 		funcion = $tablaFunciones.find(@idFuncion.nombre.texto)
+		
 		if funcion == nil
-			$erroresContexto << ErrorFuncionNoDeclarada.new(@inicio, @fin, @idFuncion.nombre.texto)
+			$erroresContexto << ErrorFuncionNoDeclarada.new(@inicio, @idFuncion.nombre.texto)
 		else
 			parametrosFuncion = funcion[:tipo]
 
 			if parametrosFuncion.size-1 != @parametros.size
-				$erroresContexto << ErrorCantidadParametros.new(@inicio, @fin, parametrosFuncion.size-1, @parametros.size, @idFuncion.nombre.texto)
+				$erroresContexto << ErrorCantidadParametros.new(@inicio, parametrosFuncion.size-1, @parametros.size, @idFuncion.nombre.texto)
 			end
 
 			for i in (0..parametrosFuncion.size-2) do 
 				@parametros[i].check(tabla)
 				if @parametros[i].tipo.downcase != parametrosFuncion[i]
 
-					$erroresContexto << ErrorTipoParametro.new(@inicio, @fin, parametrosFuncion[i], @parametros[i].tipo.downcase, i, @idFuncion.nombre.texto)
+					$erroresContexto << ErrorTipoParametro.new(@inicio, parametrosFuncion[i], @parametros[i].tipo.downcase, i, @idFuncion.nombre.texto)
 				end
 			end
 
 			@tipo = parametrosFuncion[parametrosFuncion.size-1]
+			return nil
 		end
 	end
 
@@ -557,7 +559,11 @@ class LlamadaFuncion < AST
 			raise CorrecursividadError.new(@inicio, @fin)
 		else
 			$pilaLlamadas << @idFuncion.nombre.texto
-			r = $tablaFunciones.find(@idFuncion.nombre.texto)[:instancia].run(false, param)
+			begin
+				r = $tablaFunciones.find(@idFuncion.nombre.texto)[:instancia].run(false, param)
+			rescue SystemStackError => e
+				raise PilaSistemaLlenaError.new(@inicio, @idFuncion.nombre.texto)
+			end
 			$pilaLlamadas.pop()
 			if r != nil
 				return r
@@ -580,6 +586,7 @@ class Salida < AST
 				e.check(tabla)
 			end
 		end
+		return nil
 	end
 
 	# Metodo que simula la corrida de una instruccion de salida
@@ -649,7 +656,7 @@ class Numero < AST
 	# Metodo que revisa la correctitud de la clase Numero
 	def check tabla, tipoF = nil
 		@tipo = "number"
-		@inicio = @nombre.fila
+		@inicio = @nombre.linea
 	end
 
 	# Metodo que devuelve el valor que posee un numero en el programa
@@ -674,7 +681,7 @@ class Booleano < AST
 	# Metodo que revisa la correctitud de la clase Booleano
 	def check tabla, tipoF = nil
 		@tipo = "boolean"
-		@inicio = @nombre.fila
+		@inicio = @nombre.linea
 	end
 
 	# Metodo que devuelve el valor que posee un booleano en el programa
@@ -717,10 +724,10 @@ class Identificador < AST
 
 	# Metodo que revisa la correctitud de la clase Identificador
 	def check tabla, tipoF = nil
-		@inicio = @nombre.fila
+		@inicio = @nombre.linea
 		variable = tabla.find(@nombre.texto)
 		if variable == nil
-			$erroresContexto << ErrorVariableNoDeclarada.new(@nombre.fila, @nombre.fila, @nombre.texto)
+			$erroresContexto << ErrorVariableNoDeclarada.new(@nombre.linea, @nombre.texto)
 		else 
 			@tipo = variable[:tipo]
 		end
@@ -730,7 +737,7 @@ class Identificador < AST
 	def run tabla 
 		valor = tabla.find(@nombre.texto)[:valor]
 		if valor == nil then
-			raise VariableNoInicializadaError.new(@nombre.fila, @nombre.columna, @nombre.texto)
+			raise VariableNoInicializadaError.new(@nombre.linea, @nombre.columna, @nombre.texto)
 		end
 		return valor
 	end
@@ -753,13 +760,13 @@ class OpUnario < AST
 		if @operando.tipo == 'number' and self.class.name == 'Negativo'
 			@tipo = "number"
 		elsif @operando.class.name == 'Numero' and self.class.name != 'Negativo'
-			$erroresContexto << ErrorTipoOperadores.new(@inicio, @inicio, self.class.name, "number")
+			$erroresContexto << ErrorTipoOperadores.new(@inicio, self.class.name, "number")
 		end
 
 		if @operando.tipo == 'boolean' and self.class.name == 'Not'
 			@tipo = "boolean"
 		elsif @operando.class.name == 'Booleano' and self.class.name != 'Not'
-			$erroresContexto << ErrorTipoOperadores.new(@inicio, @inicio, self.class.name, "boolean")
+			$erroresContexto << ErrorTipoOperadores.new(@inicio, self.class.name, "boolean")
 		end
 	end
 end
@@ -804,7 +811,7 @@ class OpBinario < AST
 		elsif @opIzquierda.tipo == "boolean" and @opDerecha.tipo == "boolean" and  (self.class.name == 'Igual' or self.class.name == 'Diferente' or self.class.name == 'And' or self.class.name == 'Or')
 			@tipo = "boolean"
 		else
-			$erroresContexto << ErrorTipoOperadores.new(@inicio, @inicio, self.class.name, @opIzquierda.tipo, @opDerecha.tipo)
+			$erroresContexto << ErrorTipoOperadores.new(@inicio, self.class.name, @opIzquierda.tipo, @opDerecha.tipo)
 		end
 	end
 end
@@ -815,7 +822,7 @@ class Suma < OpBinario
 	def run tabla 
 		resultado = @opIzquierda.run(tabla) + @opDerecha.run(tabla)
 		if resultado > 2**31-1 || resultado < -2**31 then
-			raise OverflowError.new(@inicio, @fin)
+			raise OverflowError.new(@inicio)
 		end
 		return resultado
 	end
@@ -827,7 +834,7 @@ class Resta < OpBinario
 	def run tabla 
 		resultado = @opIzquierda.run(tabla) - @opDerecha.run(tabla)	
 		if resultado > 2**31-1 || resultado < -2**31 then
-			raise OverflowError.new(@inicio, @fin)
+			raise OverflowError.new(@inicio)
 		end
 		return resultado
 	end
@@ -839,7 +846,7 @@ class Multiplicacion < OpBinario
 	def run tabla 
 		resultado = @opIzquierda.run(tabla) * @opDerecha.run(tabla)	
 		if resultado > 2**31-1 || resultado < -2**31 then
-			raise OverflowError.new(@inicio, @fin)
+			raise OverflowError.new(@inicio)
 		end
 		return resultado		
 	end
@@ -851,11 +858,11 @@ class Division < OpBinario
 	def run tabla 
 		divisor = @opDerecha.run(tabla)
 		if divisor == 0 then
-			raise DivisionCeroError.new(@inicio, @fin)
+			raise DivisionCeroError.new(@inicio)
 		end
 		resultado = @opIzquierda.run(tabla) / divisor
 		if resultado > 2**31-1 || resultado < -2**31 then
-			raise OverflowError.new(@inicio, @fin)
+			raise OverflowError.new(@inicio)
 		end
 		return resultado
 	end
@@ -867,11 +874,11 @@ class Modulo < OpBinario
 	def run tabla 
 		divisor = @opDerecha.run(tabla)
 		if divisor == 0 then
-			raise DivisionCeroError.new(@inicio, @fin)
+			raise DivisionCeroError.new(@inicio)
 		end
 		resultado = @opIzquierda.run(tabla) % divisor
 		if resultado > 2**31-1 || resultado < -2**31 then
-			raise OverflowError.new(@inicio, @fin)
+			raise OverflowError.new(@inicio)
 		end
 		return resultado		
 	end
@@ -883,11 +890,11 @@ class DivisionEntera < OpBinario
 	def run tabla 
 		divisor = @opDerecha.run(tabla)
 		if divisor == 0 then
-			raise DivisionCeroError.new(@inicio, @fin)
+			raise DivisionCeroError.new(@inicio)
 		end
 		resultado = @opIzquierda.run(tabla).div(divisor)
 		if resultado > 2**31-1 || resultado < -2**31 then
-			raise OverflowError.new(@inicio, @fin)
+			raise OverflowError.new(@inicio)
 		end
 		return resultado
 	end
@@ -899,11 +906,11 @@ class ModuloEntero < OpBinario
 	def run tabla 
 		divisor = @opDerecha.run(tabla)
 		if divisor == 0 then
-			raise DivisionCeroError.new(@inicio, @fin)
+			raise DivisionCeroError.new(@inicio)
 		end
 		resultado = @opIzquierda.run(tabla).floor % divisor.floor
 		if resultado > 2**31-1 || resultado < -2**31 then
-			raise OverflowError.new(@inicio, @fin)
+			raise OverflowError.new(@inicio)
 		end
 		return resultado
 	end

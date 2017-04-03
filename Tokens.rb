@@ -8,17 +8,17 @@
 
 # Clase que representa un Token (lexema)
 class Token
-	attr_reader :texto, :fila, :columna
+	attr_reader :texto, :linea, :columna
 
 	# Constructor de la Clase Token
-	def initialize texto, fila, columna
+	def initialize texto, linea, columna
 		@texto = texto	# Lo que se detecto al hacer match con alguna Expresion Regular.
-		@fila = fila	# Fila en el archivo donde se consiguio dicho Token.
+		@linea = linea	# Linea en el archivo donde se consiguio dicho Token.
 		@columna = columna # Columna en el archivo donde se consiguio dicho Token.
 	end
 
 	def to_s
-		"linea #{@fila}, columna #{@columna}: #{self.class.name} '#{@texto}'"
+		"linea #{@linea}, columna #{@columna}: #{self.class.name} '#{@texto}'"
 	end
 end
 
@@ -66,9 +66,9 @@ $tokens.each do |token, regex|
 		@regex = regex # Expresion regular 
 
 		# Constructor de las clases
-		def initialize(texto, fila, columna)
+		def initialize(texto, linea, columna)
 			@texto = texto 	
-			@fila = fila	
+			@linea = linea	
 			@columna = columna 
 		end
 	end

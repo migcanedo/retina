@@ -14,7 +14,7 @@ class Lexer
 	# Constructor de la clase Lexer.
 	def initialize entrada
 		@entrada = entrada # String que contiene el contenido del archivo.
-		@linea = 1 # Valor inicial de la fila.
+		@linea = 1 # Valor inicial de la linea.
 		@columna = 1 # Valor inicial de columna.
 		@tokens = [] # Lista de tokens.
 		@errores = [] # Lista de errores.

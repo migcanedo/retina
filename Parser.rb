@@ -732,14 +732,14 @@ Racc_debug_parser = false
 
 module_eval(<<'.,.,', 'Parser.y', 88)
   def _reduce_1(val, _values, result)
-    result = Programa.new([], val[1]).set_inicio(val[0].fila).set_fin(val[2].fila)		
+    result = Programa.new([], val[1]).set_inicio(val[0].linea).set_fin(val[2].linea)		
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 89)
   def _reduce_2(val, _values, result)
-    result = Programa.new(val[0], val[2]).set_inicio(val[1].fila).set_fin(val[3].fila)	
+    result = Programa.new(val[0], val[2]).set_inicio(val[1].linea).set_fin(val[3].linea)	
     result
   end
 .,.,
@@ -760,35 +760,35 @@ module_eval(<<'.,.,', 'Parser.y', 93)
 
 module_eval(<<'.,.,', 'Parser.y', 96)
   def _reduce_5(val, _values, result)
-    result = Funcion.new(Identificador.new(val[1]), val[3], nil, val[6]).set_inicio(val[0].fila).set_fin(val[7].fila)	
+    result = Funcion.new(Identificador.new(val[1]), val[3], nil, val[6]).set_inicio(val[0].linea).set_fin(val[7].linea)	
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 97)
   def _reduce_6(val, _values, result)
-    result = Funcion.new(Identificador.new(val[1]), [], nil, val[5]).set_inicio(val[0].fila).set_fin(val[6].fila)		
+    result = Funcion.new(Identificador.new(val[1]), [], nil, val[5]).set_inicio(val[0].linea).set_fin(val[6].linea)		
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 98)
   def _reduce_7(val, _values, result)
-    result = Funcion.new(Identificador.new(val[1]), val[3], val[6], val[8]).set_inicio(val[0].fila).set_fin(val[9].fila)	
+    result = Funcion.new(Identificador.new(val[1]), val[3], val[6], val[8]).set_inicio(val[0].linea).set_fin(val[9].linea)	
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 99)
   def _reduce_8(val, _values, result)
-    result = Funcion.new(Identificador.new(val[1]), [], val[5], val[7]).set_inicio(val[0].fila).set_fin(val[8].fila)	
+    result = Funcion.new(Identificador.new(val[1]), [], val[5], val[7]).set_inicio(val[0].linea).set_fin(val[8].linea)	
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 102)
   def _reduce_9(val, _values, result)
-    result = ReturnFuncion.new(val[1]).set_inicio(val[0].fila).set_fin(val[0].fila)		
+    result = ReturnFuncion.new(val[1]).set_inicio(val[0].linea).set_fin(val[0].linea)		
     result
   end
 .,.,
@@ -816,42 +816,42 @@ module_eval(<<'.,.,', 'Parser.y', 105)
 
 module_eval(<<'.,.,', 'Parser.y', 106)
   def _reduce_13(val, _values, result)
-    result = Asignacion.new(Identificador.new(val[0]), val[2]).set_inicio(val[0].fila).set_fin(val[0].fila)				   
+    result = Asignacion.new(Identificador.new(val[0]), val[2]).set_inicio(val[0].linea).set_fin(val[0].linea)				   
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 107)
   def _reduce_14(val, _values, result)
-    result = LlamadaFuncion.new(Identificador.new(val[0]), val[2]).set_inicio(val[0].fila).set_fin(val[0].fila)			    	   
+    result = LlamadaFuncion.new(Identificador.new(val[0]), val[2]).set_inicio(val[0].linea).set_fin(val[0].linea)			    	   
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 108)
   def _reduce_15(val, _values, result)
-    result = LlamadaFuncion.new(Identificador.new(val[0]), []).set_inicio(val[0].fila).set_fin(val[0].fila)			    	   
+    result = LlamadaFuncion.new(Identificador.new(val[0]), []).set_inicio(val[0].linea).set_fin(val[0].linea)			    	   
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 109)
   def _reduce_16(val, _values, result)
-    result = Salida.new(val[1]).set_inicio(val[0].fila).set_fin(val[0].fila)		   
+    result = Salida.new(val[1]).set_inicio(val[0].linea).set_fin(val[0].linea)		   
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 110)
   def _reduce_17(val, _values, result)
-    result = SalidaSalto.new(val[1]).set_inicio(val[0].fila).set_fin(val[0].fila)		   
+    result = SalidaSalto.new(val[1]).set_inicio(val[0].linea).set_fin(val[0].linea)		   
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 111)
   def _reduce_18(val, _values, result)
-    result = Entrada.new(Identificador.new(val[1])).set_inicio(val[0].fila).set_fin(val[0].fila)	
+    result = Entrada.new(Identificador.new(val[1])).set_inicio(val[0].linea).set_fin(val[0].linea)	
     result
   end
 .,.,
@@ -886,63 +886,63 @@ module_eval(<<'.,.,', 'Parser.y', 119)
 
 module_eval(<<'.,.,', 'Parser.y', 122)
   def _reduce_23(val, _values, result)
-    result = Parametro.new(val[0], Identificador.new(val[1])).set_inicio(val[1].fila).set_fin(val[1].fila)		
+    result = Parametro.new(val[0], Identificador.new(val[1])).set_inicio(val[1].linea).set_fin(val[1].linea)		
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 125)
   def _reduce_24(val, _values, result)
-    result = Bloque.new(val[1], val[3]).set_inicio(val[0].fila).set_fin(val[4].fila)	
+    result = Bloque.new(val[1], val[3]).set_inicio(val[0].linea).set_fin(val[4].linea)	
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 126)
   def _reduce_25(val, _values, result)
-    result = Bloque.new([], val[2]).set_inicio(val[0].fila).set_fin(val[3].fila)		
+    result = Bloque.new([], val[2]).set_inicio(val[0].linea).set_fin(val[3].linea)		
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 127)
   def _reduce_26(val, _values, result)
-    result = Bloque.new(val[1], []).set_inicio(val[0].fila).set_fin(val[3].fila)		
+    result = Bloque.new(val[1], []).set_inicio(val[0].linea).set_fin(val[3].linea)		
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 128)
   def _reduce_27(val, _values, result)
-    result = Bloque.new([], []).set_inicio(val[0].fila).set_fin(val[2].fila)
+    result = Bloque.new([], []).set_inicio(val[0].linea).set_fin(val[2].linea)
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 131)
   def _reduce_28(val, _values, result)
-    result = Bloque.new(val[1], val[3]).set_inicio(val[0].fila).set_fin(val[4].fila)	
+    result = Bloque.new(val[1], val[3]).set_inicio(val[0].linea).set_fin(val[4].linea)	
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 132)
   def _reduce_29(val, _values, result)
-    result = Bloque.new([], val[2]).set_inicio(val[0].fila).set_fin(val[3].fila)		
+    result = Bloque.new([], val[2]).set_inicio(val[0].linea).set_fin(val[3].linea)		
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 133)
   def _reduce_30(val, _values, result)
-    result = Bloque.new(val[1], []).set_inicio(val[0].fila).set_fin(val[3].fila)		
+    result = Bloque.new(val[1], []).set_inicio(val[0].linea).set_fin(val[3].linea)		
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 134)
   def _reduce_31(val, _values, result)
-    result = Bloque.new([], []).set_inicio(val[0].fila).set_fin(val[2].fila)
+    result = Bloque.new([], []).set_inicio(val[0].linea).set_fin(val[2].linea)
     result
   end
 .,.,
@@ -963,14 +963,14 @@ module_eval(<<'.,.,', 'Parser.y', 139)
 
 module_eval(<<'.,.,', 'Parser.y', 142)
   def _reduce_34(val, _values, result)
-    result = Declaracion.new(val[0], Identificador.new(val[1]), nil).set_inicio(val[1].fila).set_fin(val[1].fila)		
+    result = Declaracion.new(val[0], Identificador.new(val[1]), nil).set_inicio(val[1].linea).set_fin(val[1].linea)		
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 143)
   def _reduce_35(val, _values, result)
-    result = Declaracion.new(val[0], Identificador.new(val[1]), val[3]).set_inicio(val[1].fila).set_fin(val[1].fila)		
+    result = Declaracion.new(val[0], Identificador.new(val[1]), val[3]).set_inicio(val[1].linea).set_fin(val[1].linea)		
     result
   end
 .,.,
@@ -991,182 +991,182 @@ module_eval(<<'.,.,', 'Parser.y', 147)
 
 module_eval(<<'.,.,', 'Parser.y', 150)
   def _reduce_38(val, _values, result)
-    result = Condicional.new(val[1], val[3], []).set_inicio(val[0].fila).set_fin(val[4].fila)   	
+    result = Condicional.new(val[1], val[3], []).set_inicio(val[0].linea).set_fin(val[4].linea)   	
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 151)
   def _reduce_39(val, _values, result)
-    result = Condicional.new(val[1], val[3], val[5]).set_inicio(val[0].fila).set_fin(val[6].fila)  
+    result = Condicional.new(val[1], val[3], val[5]).set_inicio(val[0].linea).set_fin(val[6].linea)  
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 152)
   def _reduce_40(val, _values, result)
-    result = Condicional.new(val[1], [], []).set_inicio(val[0].fila).set_fin(val[3].fila)  	
+    result = Condicional.new(val[1], [], []).set_inicio(val[0].linea).set_fin(val[3].linea)  	
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 153)
   def _reduce_41(val, _values, result)
-    result = Condicional.new(val[1], val[3], []).set_inicio(val[0].fila).set_fin(val[5].fila)  	
+    result = Condicional.new(val[1], val[3], []).set_inicio(val[0].linea).set_fin(val[5].linea)  	
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 154)
   def _reduce_42(val, _values, result)
-    result = Condicional.new(val[1], [], val[4]).set_inicio(val[0].fila).set_fin(val[5].fila)  	
+    result = Condicional.new(val[1], [], val[4]).set_inicio(val[0].linea).set_fin(val[5].linea)  	
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 157)
   def _reduce_43(val, _values, result)
-    result = Condicional.new(val[1], val[3], []).set_inicio(val[0].fila).set_fin(val[4].fila)   	
+    result = Condicional.new(val[1], val[3], []).set_inicio(val[0].linea).set_fin(val[4].linea)   	
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 158)
   def _reduce_44(val, _values, result)
-    result = Condicional.new(val[1], val[3], val[5]).set_inicio(val[0].fila).set_fin(val[6].fila)  
+    result = Condicional.new(val[1], val[3], val[5]).set_inicio(val[0].linea).set_fin(val[6].linea)  
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 159)
   def _reduce_45(val, _values, result)
-    result = Condicional.new(val[1], [], []).set_inicio(val[0].fila).set_fin(val[3].fila)  	
+    result = Condicional.new(val[1], [], []).set_inicio(val[0].linea).set_fin(val[3].linea)  	
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 160)
   def _reduce_46(val, _values, result)
-    result = Condicional.new(val[1], val[3], []).set_inicio(val[0].fila).set_fin(val[5].fila)  	
+    result = Condicional.new(val[1], val[3], []).set_inicio(val[0].linea).set_fin(val[5].linea)  	
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 161)
   def _reduce_47(val, _values, result)
-    result = Condicional.new(val[1], [], val[4]).set_inicio(val[0].fila).set_fin(val[5].fila)  	
+    result = Condicional.new(val[1], [], val[4]).set_inicio(val[0].linea).set_fin(val[5].linea)  	
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 164)
   def _reduce_48(val, _values, result)
-    result = IteracionIndeterminada.new(val[1], val[3]).set_inicio(val[0].fila).set_fin(val[4].fila) 
+    result = IteracionIndeterminada.new(val[1], val[3]).set_inicio(val[0].linea).set_fin(val[4].linea) 
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 165)
   def _reduce_49(val, _values, result)
-    result = IteracionIndeterminada.new(val[1], []).set_inicio(val[0].fila).set_fin(val[3].fila) 	
+    result = IteracionIndeterminada.new(val[1], []).set_inicio(val[0].linea).set_fin(val[3].linea) 	
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 166)
   def _reduce_50(val, _values, result)
-    result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], val[7], val[9]).set_inicio(val[0].fila).set_fin(val[10].fila)   
+    result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], val[7], val[9]).set_inicio(val[0].linea).set_fin(val[10].linea)   
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 167)
   def _reduce_51(val, _values, result)
-    result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], val[7], []).set_inicio(val[0].fila).set_fin(val[9].fila)   
+    result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], val[7], []).set_inicio(val[0].linea).set_fin(val[9].linea)   
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 168)
   def _reduce_52(val, _values, result)
-    result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], nil, val[7]).set_inicio(val[0].fila).set_fin(val[8].fila)   
+    result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], nil, val[7]).set_inicio(val[0].linea).set_fin(val[8].linea)   
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 169)
   def _reduce_53(val, _values, result)
-    result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], nil, []).set_inicio(val[0].fila).set_fin(val[7].fila)   
+    result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], nil, []).set_inicio(val[0].linea).set_fin(val[7].linea)   
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 170)
   def _reduce_54(val, _values, result)
-    result = IteracionRepeat.new(val[1], val[3]).set_inicio(val[0].fila).set_fin(val[4].fila)	
+    result = IteracionRepeat.new(val[1], val[3]).set_inicio(val[0].linea).set_fin(val[4].linea)	
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 171)
   def _reduce_55(val, _values, result)
-    result = IteracionRepeat.new(val[1], []).set_inicio(val[0].fila).set_fin(val[3].fila)	
+    result = IteracionRepeat.new(val[1], []).set_inicio(val[0].linea).set_fin(val[3].linea)	
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 174)
   def _reduce_56(val, _values, result)
-    result = IteracionIndeterminada.new(val[1], val[3]).set_inicio(val[0].fila).set_fin(val[4].fila) 
+    result = IteracionIndeterminada.new(val[1], val[3]).set_inicio(val[0].linea).set_fin(val[4].linea) 
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 175)
   def _reduce_57(val, _values, result)
-    result = IteracionIndeterminada.new(val[1], []).set_inicio(val[0].fila).set_fin(val[3].fila) 	
+    result = IteracionIndeterminada.new(val[1], []).set_inicio(val[0].linea).set_fin(val[3].linea) 	
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 176)
   def _reduce_58(val, _values, result)
-    result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], val[7], val[9]).set_inicio(val[0].fila).set_fin(val[10].fila)   
+    result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], val[7], val[9]).set_inicio(val[0].linea).set_fin(val[10].linea)   
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 177)
   def _reduce_59(val, _values, result)
-    result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], val[7], []).set_inicio(val[0].fila).set_fin(val[9].fila)   
+    result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], val[7], []).set_inicio(val[0].linea).set_fin(val[9].linea)   
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 178)
   def _reduce_60(val, _values, result)
-    result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], nil, val[7]).set_inicio(val[0].fila).set_fin(val[8].fila)   
+    result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], nil, val[7]).set_inicio(val[0].linea).set_fin(val[8].linea)   
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 179)
   def _reduce_61(val, _values, result)
-    result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], nil, []).set_inicio(val[0].fila).set_fin(val[7].fila)   
+    result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], nil, []).set_inicio(val[0].linea).set_fin(val[7].linea)   
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 180)
   def _reduce_62(val, _values, result)
-    result = IteracionRepeat.new(val[1], val[3]).set_inicio(val[0].fila).set_fin(val[4].fila)   
+    result = IteracionRepeat.new(val[1], val[3]).set_inicio(val[0].linea).set_fin(val[4].linea)   
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 181)
   def _reduce_63(val, _values, result)
-    result = IteracionRepeat.new(val[1], []).set_inicio(val[0].fila).set_fin(val[3].fila)	
+    result = IteracionRepeat.new(val[1], []).set_inicio(val[0].linea).set_fin(val[3].linea)	
     result
   end
 .,.,
@@ -1187,7 +1187,7 @@ module_eval(<<'.,.,', 'Parser.y', 185)
 
 module_eval(<<'.,.,', 'Parser.y', 188)
   def _reduce_66(val, _values, result)
-    result = Asignacion.new(Identificador.new(val[0]), val[2]).set_inicio(val[0].fila).set_fin(val[0].fila)				   
+    result = Asignacion.new(Identificador.new(val[0]), val[2]).set_inicio(val[0].linea).set_fin(val[0].linea)				   
     result
   end
 .,.,
@@ -1215,35 +1215,35 @@ module_eval(<<'.,.,', 'Parser.y', 191)
 
 module_eval(<<'.,.,', 'Parser.y', 192)
   def _reduce_70(val, _values, result)
-    result = LlamadaFuncion.new(Identificador.new(val[0]), val[2]).set_inicio(val[0].fila).set_fin(val[0].fila)			    	   
+    result = LlamadaFuncion.new(Identificador.new(val[0]), val[2]).set_inicio(val[0].linea).set_fin(val[0].linea)			    	   
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 193)
   def _reduce_71(val, _values, result)
-    result = LlamadaFuncion.new(Identificador.new(val[0]), []).set_inicio(val[0].fila).set_fin(val[0].fila)			    	   
+    result = LlamadaFuncion.new(Identificador.new(val[0]), []).set_inicio(val[0].linea).set_fin(val[0].linea)			    	   
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 194)
   def _reduce_72(val, _values, result)
-    result = Salida.new(val[1]).set_inicio(val[0].fila).set_fin(val[0].fila)		   
+    result = Salida.new(val[1]).set_inicio(val[0].linea).set_fin(val[0].linea)		   
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 195)
   def _reduce_73(val, _values, result)
-    result = SalidaSalto.new(val[1]).set_inicio(val[0].fila).set_fin(val[0].fila)		   
+    result = SalidaSalto.new(val[1]).set_inicio(val[0].linea).set_fin(val[0].linea)		   
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'Parser.y', 196)
   def _reduce_74(val, _values, result)
-    result = Entrada.new(Identificador.new(val[1])).set_inicio(val[0].fila).set_fin(val[0].fila)	 
+    result = Entrada.new(Identificador.new(val[1])).set_inicio(val[0].linea).set_fin(val[0].linea)	 
     result
   end
 .,.,

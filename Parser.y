@@ -87,30 +87,30 @@ start Programa
 # Declaracion de la Gramatica de Retina.
 rule
 
-	Programa: 'program' Instrucciones 'end' ';'						{result = Programa.new([], val[1]).set_inicio(val[0].fila).set_fin(val[2].fila)		}
-		| Funciones 'program' Instrucciones 'end' ';'					{result = Programa.new(val[0], val[2]).set_inicio(val[1].fila).set_fin(val[3].fila)	}
+	Programa: 'program' Instrucciones 'end' ';'						{result = Programa.new([], val[1]).set_inicio(val[0].linea).set_fin(val[2].linea)		}
+		| Funciones 'program' Instrucciones 'end' ';'					{result = Programa.new(val[0], val[2]).set_inicio(val[1].linea).set_fin(val[3].linea)	}
 		;
 
 	Funciones: Funcion ';'								{result = [val[0]]				}
 		| Funcion ';' Funciones							{result = [val[0]] + val[2]			}
 		;
 
-	Funcion: 'func' 'id' '(' Parametros ')' 'begin' InstruccionesF 'end'		{result = Funcion.new(Identificador.new(val[1]), val[3], nil, val[6]).set_inicio(val[0].fila).set_fin(val[7].fila)	}
-		| 'func' 'id' '(' ')' 'begin' InstruccionesF 'end'			{result = Funcion.new(Identificador.new(val[1]), [], nil, val[5]).set_inicio(val[0].fila).set_fin(val[6].fila)		}
-		| 'func' 'id' '(' Parametros ')' '->' Tipo 'begin' InstruccionesF 'end'	{result = Funcion.new(Identificador.new(val[1]), val[3], val[6], val[8]).set_inicio(val[0].fila).set_fin(val[9].fila)	}
-		| 'func' 'id' '(' ')' '->' Tipo 'begin' InstruccionesF 'end'		{result = Funcion.new(Identificador.new(val[1]), [], val[5], val[7]).set_inicio(val[0].fila).set_fin(val[8].fila)	}
+	Funcion: 'func' 'id' '(' Parametros ')' 'begin' InstruccionesF 'end'		{result = Funcion.new(Identificador.new(val[1]), val[3], nil, val[6]).set_inicio(val[0].linea).set_fin(val[7].linea)	}
+		| 'func' 'id' '(' ')' 'begin' InstruccionesF 'end'			{result = Funcion.new(Identificador.new(val[1]), [], nil, val[5]).set_inicio(val[0].linea).set_fin(val[6].linea)		}
+		| 'func' 'id' '(' Parametros ')' '->' Tipo 'begin' InstruccionesF 'end'	{result = Funcion.new(Identificador.new(val[1]), val[3], val[6], val[8]).set_inicio(val[0].linea).set_fin(val[9].linea)	}
+		| 'func' 'id' '(' ')' '->' Tipo 'begin' InstruccionesF 'end'		{result = Funcion.new(Identificador.new(val[1]), [], val[5], val[7]).set_inicio(val[0].linea).set_fin(val[8].linea)	}
 		;
 
-	InstruccionF: 'return' Expresion 						{result = ReturnFuncion.new(val[1]).set_inicio(val[0].fila).set_fin(val[0].fila)		}
+	InstruccionF: 'return' Expresion 						{result = ReturnFuncion.new(val[1]).set_inicio(val[0].linea).set_fin(val[0].linea)		}
 		| CondicionalF								{result = val[0]				}
 		| IteracionF								{result = val[0]				}
 		| BloqueF								{result = val[0]				}
-		| 'id' '='  Expresion 							{result = Asignacion.new(Identificador.new(val[0]), val[2]).set_inicio(val[0].fila).set_fin(val[0].fila)				   }
-		| 'id' '(' Expresiones ')' 						{result = LlamadaFuncion.new(Identificador.new(val[0]), val[2]).set_inicio(val[0].fila).set_fin(val[0].fila)			    	   }
-		| 'id' '(' ')'								{result = LlamadaFuncion.new(Identificador.new(val[0]), []).set_inicio(val[0].fila).set_fin(val[0].fila)			    	   }
-		| 'write' ElementosSalida						{result = Salida.new(val[1]).set_inicio(val[0].fila).set_fin(val[0].fila)		   }
-		| 'writeln' ElementosSalida						{result = SalidaSalto.new(val[1]).set_inicio(val[0].fila).set_fin(val[0].fila)		   }
-		| 'read' 'id'								{result = Entrada.new(Identificador.new(val[1])).set_inicio(val[0].fila).set_fin(val[0].fila)	}
+		| 'id' '='  Expresion 							{result = Asignacion.new(Identificador.new(val[0]), val[2]).set_inicio(val[0].linea).set_fin(val[0].linea)				   }
+		| 'id' '(' Expresiones ')' 						{result = LlamadaFuncion.new(Identificador.new(val[0]), val[2]).set_inicio(val[0].linea).set_fin(val[0].linea)			    	   }
+		| 'id' '(' ')'								{result = LlamadaFuncion.new(Identificador.new(val[0]), []).set_inicio(val[0].linea).set_fin(val[0].linea)			    	   }
+		| 'write' ElementosSalida						{result = Salida.new(val[1]).set_inicio(val[0].linea).set_fin(val[0].linea)		   }
+		| 'writeln' ElementosSalida						{result = SalidaSalto.new(val[1]).set_inicio(val[0].linea).set_fin(val[0].linea)		   }
+		| 'read' 'id'								{result = Entrada.new(Identificador.new(val[1])).set_inicio(val[0].linea).set_fin(val[0].linea)	}
 		;
 
 	InstruccionesF: InstruccionF ';' 						{result = [val[0]]						}
@@ -121,19 +121,19 @@ rule
 		| Parametros ',' Parametro 						{result = val[0] + [val[2]]			}
 		;
 
-	Parametro: Tipo 'id'								{result = Parametro.new(val[0], Identificador.new(val[1])).set_inicio(val[1].fila).set_fin(val[1].fila)		}
+	Parametro: Tipo 'id'								{result = Parametro.new(val[0], Identificador.new(val[1])).set_inicio(val[1].linea).set_fin(val[1].linea)		}
 		;
 
-	Bloque: 'with' Declaraciones 'do' Instrucciones 'end'				{result = Bloque.new(val[1], val[3]).set_inicio(val[0].fila).set_fin(val[4].fila)	}
-		| 'with' 'do' Instrucciones 'end'					{result = Bloque.new([], val[2]).set_inicio(val[0].fila).set_fin(val[3].fila)		}
-		| 'with' Declaraciones 'do' 'end'					{result = Bloque.new(val[1], []).set_inicio(val[0].fila).set_fin(val[3].fila)		}
-		| 'with' 'do' 'end'							{result = Bloque.new([], []).set_inicio(val[0].fila).set_fin(val[2].fila)}	
+	Bloque: 'with' Declaraciones 'do' Instrucciones 'end'				{result = Bloque.new(val[1], val[3]).set_inicio(val[0].linea).set_fin(val[4].linea)	}
+		| 'with' 'do' Instrucciones 'end'					{result = Bloque.new([], val[2]).set_inicio(val[0].linea).set_fin(val[3].linea)		}
+		| 'with' Declaraciones 'do' 'end'					{result = Bloque.new(val[1], []).set_inicio(val[0].linea).set_fin(val[3].linea)		}
+		| 'with' 'do' 'end'							{result = Bloque.new([], []).set_inicio(val[0].linea).set_fin(val[2].linea)}	
 		;
 
-	BloqueF: 'with' Declaraciones 'do' InstruccionesF 'end'				{result = Bloque.new(val[1], val[3]).set_inicio(val[0].fila).set_fin(val[4].fila)	}
-		| 'with' 'do' InstruccionesF 'end'					{result = Bloque.new([], val[2]).set_inicio(val[0].fila).set_fin(val[3].fila)		}
-		| 'with' Declaraciones 'do' 'end'					{result = Bloque.new(val[1], []).set_inicio(val[0].fila).set_fin(val[3].fila)		}
-		| 'with' 'do' 'end'							{result = Bloque.new([], []).set_inicio(val[0].fila).set_fin(val[2].fila)}	
+	BloqueF: 'with' Declaraciones 'do' InstruccionesF 'end'				{result = Bloque.new(val[1], val[3]).set_inicio(val[0].linea).set_fin(val[4].linea)	}
+		| 'with' 'do' InstruccionesF 'end'					{result = Bloque.new([], val[2]).set_inicio(val[0].linea).set_fin(val[3].linea)		}
+		| 'with' Declaraciones 'do' 'end'					{result = Bloque.new(val[1], []).set_inicio(val[0].linea).set_fin(val[3].linea)		}
+		| 'with' 'do' 'end'							{result = Bloque.new([], []).set_inicio(val[0].linea).set_fin(val[2].linea)}	
 		;
 
 
@@ -141,61 +141,61 @@ rule
 		| Declaracion ';' Declaraciones						{result = [val[0]] + val[2]				}
 		;
 
-	Declaracion: Tipo 'id'								{result = Declaracion.new(val[0], Identificador.new(val[1]), nil).set_inicio(val[1].fila).set_fin(val[1].fila)		}
-		| Tipo 'id' '=' Expresion 						{result = Declaracion.new(val[0], Identificador.new(val[1]), val[3]).set_inicio(val[1].fila).set_fin(val[1].fila)		}
+	Declaracion: Tipo 'id'								{result = Declaracion.new(val[0], Identificador.new(val[1]), nil).set_inicio(val[1].linea).set_fin(val[1].linea)		}
+		| Tipo 'id' '=' Expresion 						{result = Declaracion.new(val[0], Identificador.new(val[1]), val[3]).set_inicio(val[1].linea).set_fin(val[1].linea)		}
 		;
 
 	Tipo: 'number'									{result = Tipo.new(val[0])				   }
 		| 'boolean'								{result = Tipo.new(val[0])				   }
 		;
 
-	Condicional: 'if' Expresion 'then' Instrucciones 'end'				{result = Condicional.new(val[1], val[3], []).set_inicio(val[0].fila).set_fin(val[4].fila)   	}
-		| 'if' Expresion 'then' Instrucciones 'else' Instrucciones 'end'	{result = Condicional.new(val[1], val[3], val[5]).set_inicio(val[0].fila).set_fin(val[6].fila)  }
-		| 'if' Expresion 'then' 'end'						{result = Condicional.new(val[1], [], []).set_inicio(val[0].fila).set_fin(val[3].fila)  	}
-		| 'if' Expresion 'then' Instrucciones 'else' 'end'			{result = Condicional.new(val[1], val[3], []).set_inicio(val[0].fila).set_fin(val[5].fila)  	}
-		| 'if' Expresion 'then' 'else' Instrucciones 'end'			{result = Condicional.new(val[1], [], val[4]).set_inicio(val[0].fila).set_fin(val[5].fila)  	}
+	Condicional: 'if' Expresion 'then' Instrucciones 'end'				{result = Condicional.new(val[1], val[3], []).set_inicio(val[0].linea).set_fin(val[4].linea)   	}
+		| 'if' Expresion 'then' Instrucciones 'else' Instrucciones 'end'	{result = Condicional.new(val[1], val[3], val[5]).set_inicio(val[0].linea).set_fin(val[6].linea)  }
+		| 'if' Expresion 'then' 'end'						{result = Condicional.new(val[1], [], []).set_inicio(val[0].linea).set_fin(val[3].linea)  	}
+		| 'if' Expresion 'then' Instrucciones 'else' 'end'			{result = Condicional.new(val[1], val[3], []).set_inicio(val[0].linea).set_fin(val[5].linea)  	}
+		| 'if' Expresion 'then' 'else' Instrucciones 'end'			{result = Condicional.new(val[1], [], val[4]).set_inicio(val[0].linea).set_fin(val[5].linea)  	}
 		;
 	
-	CondicionalF: 'if' Expresion 'then' InstruccionesF 'end'			{result = Condicional.new(val[1], val[3], []).set_inicio(val[0].fila).set_fin(val[4].fila)   	}
-		| 'if' Expresion 'then' InstruccionesF 'else' InstruccionesF 'end'	{result = Condicional.new(val[1], val[3], val[5]).set_inicio(val[0].fila).set_fin(val[6].fila)  }
-		| 'if' Expresion 'then' 'end'						{result = Condicional.new(val[1], [], []).set_inicio(val[0].fila).set_fin(val[3].fila)  	}
-		| 'if' Expresion 'then' InstruccionesF 'else' 'end'			{result = Condicional.new(val[1], val[3], []).set_inicio(val[0].fila).set_fin(val[5].fila)  	}
-		| 'if' Expresion 'then' 'else' InstruccionesF 'end'			{result = Condicional.new(val[1], [], val[4]).set_inicio(val[0].fila).set_fin(val[5].fila)  	}
+	CondicionalF: 'if' Expresion 'then' InstruccionesF 'end'			{result = Condicional.new(val[1], val[3], []).set_inicio(val[0].linea).set_fin(val[4].linea)   	}
+		| 'if' Expresion 'then' InstruccionesF 'else' InstruccionesF 'end'	{result = Condicional.new(val[1], val[3], val[5]).set_inicio(val[0].linea).set_fin(val[6].linea)  }
+		| 'if' Expresion 'then' 'end'						{result = Condicional.new(val[1], [], []).set_inicio(val[0].linea).set_fin(val[3].linea)  	}
+		| 'if' Expresion 'then' InstruccionesF 'else' 'end'			{result = Condicional.new(val[1], val[3], []).set_inicio(val[0].linea).set_fin(val[5].linea)  	}
+		| 'if' Expresion 'then' 'else' InstruccionesF 'end'			{result = Condicional.new(val[1], [], val[4]).set_inicio(val[0].linea).set_fin(val[5].linea)  	}
 		;
 
-	Iteracion: 'while' Expresion 'do' Instrucciones 'end' 				{result = IteracionIndeterminada.new(val[1], val[3]).set_inicio(val[0].fila).set_fin(val[4].fila) }
-		| 'while' Expresion 'do' 'end' 						{result = IteracionIndeterminada.new(val[1], []).set_inicio(val[0].fila).set_fin(val[3].fila) 	}
-		| 'for' 'id' 'from' Expresion 'to' Expresion 'by' Expresion 'do' Instrucciones 'end'    {result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], val[7], val[9]).set_inicio(val[0].fila).set_fin(val[10].fila)   }
-		| 'for' 'id' 'from' Expresion 'to' Expresion 'by' Expresion 'do' 'end'    {result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], val[7], []).set_inicio(val[0].fila).set_fin(val[9].fila)   }
-		| 'for' 'id' 'from' Expresion 'to' Expresion 'do' Instrucciones 'end'	 {result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], nil, val[7]).set_inicio(val[0].fila).set_fin(val[8].fila)   }
-		| 'for' 'id' 'from' Expresion 'to' Expresion 'do' 'end'	 		{result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], nil, []).set_inicio(val[0].fila).set_fin(val[7].fila)   }
-		| 'repeat' Expresion 'times' Instrucciones 'end'			{result = IteracionRepeat.new(val[1], val[3]).set_inicio(val[0].fila).set_fin(val[4].fila)	}
-		| 'repeat' Expresion 'times' 'end'					{result = IteracionRepeat.new(val[1], []).set_inicio(val[0].fila).set_fin(val[3].fila)	}
+	Iteracion: 'while' Expresion 'do' Instrucciones 'end' 				{result = IteracionIndeterminada.new(val[1], val[3]).set_inicio(val[0].linea).set_fin(val[4].linea) }
+		| 'while' Expresion 'do' 'end' 						{result = IteracionIndeterminada.new(val[1], []).set_inicio(val[0].linea).set_fin(val[3].linea) 	}
+		| 'for' 'id' 'from' Expresion 'to' Expresion 'by' Expresion 'do' Instrucciones 'end'    {result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], val[7], val[9]).set_inicio(val[0].linea).set_fin(val[10].linea)   }
+		| 'for' 'id' 'from' Expresion 'to' Expresion 'by' Expresion 'do' 'end'    {result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], val[7], []).set_inicio(val[0].linea).set_fin(val[9].linea)   }
+		| 'for' 'id' 'from' Expresion 'to' Expresion 'do' Instrucciones 'end'	 {result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], nil, val[7]).set_inicio(val[0].linea).set_fin(val[8].linea)   }
+		| 'for' 'id' 'from' Expresion 'to' Expresion 'do' 'end'	 		{result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], nil, []).set_inicio(val[0].linea).set_fin(val[7].linea)   }
+		| 'repeat' Expresion 'times' Instrucciones 'end'			{result = IteracionRepeat.new(val[1], val[3]).set_inicio(val[0].linea).set_fin(val[4].linea)	}
+		| 'repeat' Expresion 'times' 'end'					{result = IteracionRepeat.new(val[1], []).set_inicio(val[0].linea).set_fin(val[3].linea)	}
 		;
 
-	IteracionF: 'while' Expresion 'do' InstruccionesF 'end' 			{result = IteracionIndeterminada.new(val[1], val[3]).set_inicio(val[0].fila).set_fin(val[4].fila) }
-		| 'while' Expresion 'do' 'end' 						{result = IteracionIndeterminada.new(val[1], []).set_inicio(val[0].fila).set_fin(val[3].fila) 	}
-		| 'for' 'id' 'from' Expresion 'to' Expresion 'by' Expresion 'do' InstruccionesF 'end'    {result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], val[7], val[9]).set_inicio(val[0].fila).set_fin(val[10].fila)   }
-		| 'for' 'id' 'from' Expresion 'to' Expresion 'by' Expresion 'do' 'end'    {result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], val[7], []).set_inicio(val[0].fila).set_fin(val[9].fila)   }
-		| 'for' 'id' 'from' Expresion 'to' Expresion 'do' InstruccionesF 'end'	 {result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], nil, val[7]).set_inicio(val[0].fila).set_fin(val[8].fila)   }
-		| 'for' 'id' 'from' Expresion 'to' Expresion 'do' 'end'	 		{result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], nil, []).set_inicio(val[0].fila).set_fin(val[7].fila)   }
-		| 'repeat' Expresion 'times' InstruccionesF 'end'			{result = IteracionRepeat.new(val[1], val[3]).set_inicio(val[0].fila).set_fin(val[4].fila)   }
-		| 'repeat' Expresion 'times' 'end'					{result = IteracionRepeat.new(val[1], []).set_inicio(val[0].fila).set_fin(val[3].fila)	}
+	IteracionF: 'while' Expresion 'do' InstruccionesF 'end' 			{result = IteracionIndeterminada.new(val[1], val[3]).set_inicio(val[0].linea).set_fin(val[4].linea) }
+		| 'while' Expresion 'do' 'end' 						{result = IteracionIndeterminada.new(val[1], []).set_inicio(val[0].linea).set_fin(val[3].linea) 	}
+		| 'for' 'id' 'from' Expresion 'to' Expresion 'by' Expresion 'do' InstruccionesF 'end'    {result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], val[7], val[9]).set_inicio(val[0].linea).set_fin(val[10].linea)   }
+		| 'for' 'id' 'from' Expresion 'to' Expresion 'by' Expresion 'do' 'end'    {result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], val[7], []).set_inicio(val[0].linea).set_fin(val[9].linea)   }
+		| 'for' 'id' 'from' Expresion 'to' Expresion 'do' InstruccionesF 'end'	 {result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], nil, val[7]).set_inicio(val[0].linea).set_fin(val[8].linea)   }
+		| 'for' 'id' 'from' Expresion 'to' Expresion 'do' 'end'	 		{result = IteracionDeterminada.new(Identificador.new(val[1]), val[3], val[5], nil, []).set_inicio(val[0].linea).set_fin(val[7].linea)   }
+		| 'repeat' Expresion 'times' InstruccionesF 'end'			{result = IteracionRepeat.new(val[1], val[3]).set_inicio(val[0].linea).set_fin(val[4].linea)   }
+		| 'repeat' Expresion 'times' 'end'					{result = IteracionRepeat.new(val[1], []).set_inicio(val[0].linea).set_fin(val[3].linea)	}
 		;
 
 	Instrucciones: Instruccion ';'							{result = [val[0]]				   	}
 		| Instruccion ';' Instrucciones						{result = [val[0]] + val[2]				}
 		;
 
-	Instruccion: 'id' '='  Expresion 						{result = Asignacion.new(Identificador.new(val[0]), val[2]).set_inicio(val[0].fila).set_fin(val[0].fila)				   }
+	Instruccion: 'id' '='  Expresion 						{result = Asignacion.new(Identificador.new(val[0]), val[2]).set_inicio(val[0].linea).set_fin(val[0].linea)				   }
 		| Condicional								{result = val[0]									   }
 		| Iteracion 								{result = val[0] 									   }
 		| Bloque								{result = val[0]							            	   }
-		| 'id' '(' Expresiones ')' 						{result = LlamadaFuncion.new(Identificador.new(val[0]), val[2]).set_inicio(val[0].fila).set_fin(val[0].fila)			    	   }
-		| 'id' '(' ')'								{result = LlamadaFuncion.new(Identificador.new(val[0]), []).set_inicio(val[0].fila).set_fin(val[0].fila)			    	   }
-		| 'write' ElementosSalida						{result = Salida.new(val[1]).set_inicio(val[0].fila).set_fin(val[0].fila)		   }
-		| 'writeln' ElementosSalida						{result = SalidaSalto.new(val[1]).set_inicio(val[0].fila).set_fin(val[0].fila)		   }
-		| 'read' 'id'								{result = Entrada.new(Identificador.new(val[1])).set_inicio(val[0].fila).set_fin(val[0].fila)	 }
+		| 'id' '(' Expresiones ')' 						{result = LlamadaFuncion.new(Identificador.new(val[0]), val[2]).set_inicio(val[0].linea).set_fin(val[0].linea)			    	   }
+		| 'id' '(' ')'								{result = LlamadaFuncion.new(Identificador.new(val[0]), []).set_inicio(val[0].linea).set_fin(val[0].linea)			    	   }
+		| 'write' ElementosSalida						{result = Salida.new(val[1]).set_inicio(val[0].linea).set_fin(val[0].linea)		   }
+		| 'writeln' ElementosSalida						{result = SalidaSalto.new(val[1]).set_inicio(val[0].linea).set_fin(val[0].linea)		   }
+		| 'read' 'id'								{result = Entrada.new(Identificador.new(val[1])).set_inicio(val[0].linea).set_fin(val[0].linea)	 }
 		;
 
 	ElementosSalida: ElementoSalida 						{result = [val[0]]				}

@@ -29,7 +29,7 @@ class FuncionHome
 	end
 	
 	# Metodo que simula la ejecucion de la funcion.
-	def run tabla
+	def run tabla, param
 		$eye = [500,500]
 	end
 end
@@ -43,7 +43,7 @@ class FuncionOpenEye
 	end
 
 	# Metodo que simula la ejecucion de la funcion.
-	def run tabla
+	def run tabla, param
 		$status = true
 	end
 end
@@ -57,7 +57,7 @@ class FuncionCloseEye
 	end
 
 	# Metodo que simula la ejecucion de la funcion.	
-	def run tabla
+	def run tabla, param
 		$status = false
 	end
 end
